@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+:root {
+  --color-charcoal: #171815;
+  --color-deep: #10110f;
+  --color-ivory: #f2f0ea;
+  --color-limestone: #c7c0b4;
+  --color-bronze: #9b8468;
+  --color-sage: #7d8575;
+  --color-ink: #20211e;
+  --color-muted: #77766f;
+  --color-line-light: rgba(32, 33, 30, 0.16);
+  --color-line-dark: rgba(242, 240, 234, 0.18);
+
+  --font-inter: var(--font-inter);
+  --font-serif: "DM Serif Display", "Georgia", "Times New Roman", serif;
+  --font-sans: "DM Sans", "Inter", system-ui, sans-serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 0 1px rgba(155, 132, 104, 0.3);
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 3rem;
+  --font-size-4xl: 4rem;
+  --font-size-5xl: 5rem;
+  --font-size-6xl: 6rem;
+
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+
+  --motion-duration-fast: 150ms;
+  --motion-duration-normal: 250ms;
+  --motion-duration-slow: 400ms;
+  --motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-emphasized: cubic-bezier(0.26, 0.46, 0.45, 0.94);
+  --motion-ease-in-out: cubic-bezier(0.6, 0, 0.4, 1);
+
+  --max-width: 1280px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Scrollbar — consistent with the architectural visual language */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ivory);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bronze);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-ivory);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage);
+}
+
+/* Focus-visible — clear, architectural outline */
+:focus-visible {
+  outline: 2px solid var(--color-bronze);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection */
+::selection {
+  background: var(--color-bronze);
+  color: var(--color-ivory);
+}
+
+/* Images — preserve aspect ratio, no stretch */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Force line breaks on long content */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: var(--line-height-tight);
+  color: var(--color-ink);
+}
+
+h1 {
+  font-size: var(--font-size-5xl);
+  margin: 0;
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+  margin: 0 0 var(--space-4) 0;
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+  margin: 0 0 var(--space-3) 0;
+}
+
+h4 {
+  font-size: var(--font-size-lg);
+  margin: 0 0 var(--space-2) 0;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 var(--space-4) 0;
+}
+
+/* Links */
+a {
+  color: var(--color-bronze);
+  text-decoration: none;
+  transition: color var(--motion-duration-normal) var(--motion-ease-standard);
+}
+
+a:hover {
+  color: var(--color-ink);
+}
+
+/* Buttons */
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
