@@ -79,3 +79,14 @@ _No implementation-specific bugs or test findings have been recorded yet._
 - **Root cause:** Missing Vitest configuration to exclude the `e2e/` directory; test runner overlap between Vitest and Playwright.
 - **Fix or decision:** Not fixed in this session (pre-existing, unrelated to the node_modules move). Options: add a `vitest.config.ts` with `exclude: [...e2e]` (and `passWithNoTests: true`, since no unit tests exist), or scope the `test` script glob. E2e tests should continue to run via `npm run test:e2e` (Playwright).
 - **Verification:** Failure reproduced; cause confirmed by inspection (no vitest config, no `*.test.*` files in `src/`).
+
+#### 2026-10-17 — Helix stage CSS collapsed by unclosed `button:disabled` block
+- **Context:** The 3D helix section rendered a tiny stage: `.helix-track` measured ~310px tall (instead of 690vh), `.helix-sticky` ~310px (instead of 100vh), and the Three.js canvas only 150px tall. The helix appeared broken on every viewport.
+- **Root cause:** `src/app/globals.css` contained a duplicated, unclosed `button:disabled {` block. Its opening brace was never closed, so the CSS parser nested every subsequent rule — including all `.helix-track`, `.helix-sticky`, `.helix-canvas` styles — under `button:disabled`, where they never match.
+- **Fix:** Removed the duplicate `button:disabled {` lines so the block closes properly, and removed the orphaned closing brace at the end of the helix CSS block. All helix selectors are now top-level rules.
+- **Verification:** After fix, measured in a real browser at 1440×900: track 6210px (690vh), sticky 900px (100vh), canvas 1440×900 full viewport. `npm run build` exits 0; all 8 routes prerendered.
+
+#### 2026-10-17 — Helix QA across five viewports
+- **Context:** Needed objective evidence the scroll-driven helix renders correctly at desktop, laptop, tablet, mobile, and narrow widths, including scroll positions, reverse scroll, and viewport resize during animation.
+- **Fix/decision:** Added `e2e/helix-qa.mjs` (Playwright script) that loads `http://localhost:3000/`, waits for the canvas, scrolls to entry/titles/grid/end positions, checks reverse scroll, resizes during animation, and records canvas/track dimensions plus console/request errors.
+- **Verification:** All 5 viewports pass: canvas at full viewport height (e.g. 1440×900 desktop), adapts on resize (1152×900 after 80% resize), track at correct 690vh height, `failed: 0` (no failed network requests) at every viewport. The only `errors` are 3 pre-existing React duplicate-key warnings in `/services`, unrelated to the helix. Screenshots captured in `test-results/`.

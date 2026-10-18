@@ -113,25 +113,7 @@ export function ServicesPreview() {
 }
 
 export function HelixSection() {
-  return (
-    <section className="bg-[#f2f0ea]">
-      <div className="mx-auto max-w-[var(--max-width)] px-6 py-20 relative">
-        <div className="max-w-2xl">
-          <h2 className="font-serif text-3xl leading-tight text-[#10110f]">
-            Architectural Flythrough
-          </h2>
-          <p className="mt-4 text-[#77766f]">
-            A scroll-driven cinematic overview of the residence. Nine cards move
-            through a true 3D helix with bent card geometry, driven by scroll
-            progress.
-          </p>
-        </div>
-        <div className="mt-12 aspect-video w-full bg-[#10110f] rounded-md overflow-hidden">
-          <HelixSectionComponent />
-        </div>
-      </div>
-    </section>
-  );
+  return <HelixSectionComponent />;
 }
 
 export function CtaSection() {

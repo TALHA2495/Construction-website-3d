@@ -51,7 +51,7 @@ export function SiteHeader() {
       </div>
 
       {isMenuOpen && (
-        <div className="border-t border-[#1a1b19] md:hidden">
+        <nav aria-label="Mobile" className="border-t border-[#1a1b19] md:hidden">
           <div className="flex flex-col gap-1 px-6 py-4">
             {navLinks.map((item) => (
               <a
@@ -64,7 +64,7 @@ export function SiteHeader() {
               </a>
             ))}
           </div>
-        </div>
+        </nav>
       )}
     </header >
   );
