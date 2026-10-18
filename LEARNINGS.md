@@ -65,3 +65,17 @@ _No implementation-specific bugs or test findings have been recorded yet._
 - **Root cause:** `eslint.config.mjs` has no TypeScript/JSX parser configured (`@typescript-eslint/parser` not installed).
 - **Decision:** Deferred. `tsc --noEmit` and `next build` provide stronger safety than ESLint for this project. Lint can be revisited if `@typescript-eslint/parser` is added.
 - **Verification:** Build and typecheck pass without errors.
+
+#### 2026-10-17 — node_modules relocated outside the project
+- **Context:** `npm run dev`/`build`/`lint` all failed because `node_modules` was missing from the project root.
+- **Observed behavior:** The folder had been moved to `D:\.git\node_modules` (inside an unrelated git repo at the drive root, worktree `D:\`).
+- **Root cause:** Manual folder move; not performed by any package manager.
+- **Fix or decision:** Moved `D:\.git\node_modules` back to the project root (same drive, instant rename). No reinstall needed — all 234 top-level packages and `.bin` shims intact, versions matched `package.json` exactly (next 16.4.2, react 19.3.1, three 0.186.1, etc.).
+- **Verification:** `npm run typecheck`, `npm run lint`, and `npm run build` all exit 0; dev server serves all 6 routes with HTTP 200 at `http://localhost:3000`.
+
+#### 2026-10-17 — `npm run test` fails: Vitest picks up Playwright e2e spec
+- **Context:** `npm run test` (vitest run) fails with `Playwright Test did not expect test.describe() to be called here` on `e2e/stonehaven.spec.ts`.
+- **Observed behavior:** No `vitest.config.*` file exists, so Vitest's default glob (`**/*.{test,spec}.?(c|m)[jt]s?(x)`) matches the Playwright spec in `e2e/`. There are no actual unit test files anywhere in `src/`.
+- **Root cause:** Missing Vitest configuration to exclude the `e2e/` directory; test runner overlap between Vitest and Playwright.
+- **Fix or decision:** Not fixed in this session (pre-existing, unrelated to the node_modules move). Options: add a `vitest.config.ts` with `exclude: [...e2e]` (and `passWithNoTests: true`, since no unit tests exist), or scope the `test` script glob. E2e tests should continue to run via `npm run test:e2e` (Playwright).
+- **Verification:** Failure reproduced; cause confirmed by inspection (no vitest config, no `*.test.*` files in `src/`).
